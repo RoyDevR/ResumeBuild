@@ -274,6 +274,7 @@
             overflow-y: auto;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
 
         .resume-preview {
@@ -282,8 +283,10 @@
             box-shadow: var(--shadow);
             width: 100%;
             max-width: 800px;
-            min-height: 1123px;
+            min-height: 1123px; /* A4 height in pixels for screen */
             border-radius: var(--border-radius);
+            /* A4 aspect ratio */
+            aspect-ratio: 1/1.414;
         }
 
         /* Resume Styles */
@@ -508,6 +511,61 @@
                 display: flex;
             }
         }
+        
+        /* Print Styles for A4 Size */
+        @media print {
+            body, html {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .app-container {
+                box-shadow: none;
+                width: 100%;
+                height: 100%;
+            }
+            
+            .header, .nav-tabs, .form-container, .header-actions, .mobile-menu-btn, .overlay, .notification {
+                display: none !important;
+            }
+            
+            .content-area, .main-content, .preview-container {
+                display: block;
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            
+            .resume-preview {
+                width: 100%;
+                height: 100%;
+                max-width: none;
+                padding: 15mm;
+                box-shadow: none;
+                border-radius: 0;
+                min-height: auto;
+            }
+            
+            /* Ensure text is readable when printed */
+            .resume-header h1 {
+                font-size: 24pt;
+            }
+            
+            .resume-header p {
+                font-size: 11pt;
+            }
+            
+            .resume-section h2 {
+                font-size: 14pt;
+            }
+            
+            .resume-section, table {
+                font-size: 11pt;
+            }
+        }
     </style>
 </head>
 <body>
@@ -520,6 +578,9 @@
             <div class="header-actions">
                 <button class="btn btn-primary" id="saveBtn">
                     <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn btn-outline" id="printBtn">
+                    <i class="fas fa-print"></i> Print
                 </button>
                 <button class="btn btn-outline" id="resetBtn">
                     <i class="fas fa-redo"></i> Reset
@@ -913,9 +974,9 @@
                 input.addEventListener('input', updatePreview);
             });
             
-            // Save button functionality
+            // Save button functionality - Download as PDF
             document.getElementById('saveBtn').addEventListener('click', function() {
-                showNotification('Resume saved successfully!');
+                showNotification('Preparing your resume for download...');
                 
                 // Create a printable version of the resume
                 const resumeContent = document.getElementById('resumePreview').innerHTML;
@@ -925,60 +986,71 @@
                     <html>
                     <head>
                         <title>My Professional Resume</title>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
                         <style>
                             body {
                                 font-family: 'Poppins', sans-serif;
                                 line-height: 1.6;
                                 color: #212529;
-                                max-width: 800px;
-                                margin: 0 auto;
-                                padding: 40px;
+                                width: 210mm;
+                                min-height: 297mm;
+                                margin: 0;
+                                padding: 15mm;
+                                box-sizing: border-box;
+                                background: white;
                             }
                             .resume-header {
                                 text-align: center;
-                                margin-bottom: 30px;
-                                padding-bottom: 20px;
+                                margin-bottom: 20px;
+                                padding-bottom: 15px;
                                 border-bottom: 2px solid #e9ecef;
                             }
                             .resume-header h1 {
-                                font-size: 32px;
+                                font-size: 24pt;
                                 color: #3a0ca3;
                                 margin-bottom: 5px;
                             }
                             .resume-header p {
                                 color: #6c757d;
-                                margin: 5px 0;
+                                margin: 3px 0;
+                                font-size: 11pt;
                             }
                             .resume-section {
-                                margin-bottom: 25px;
+                                margin-bottom: 15px;
                             }
                             .resume-section h2 {
-                                font-size: 20px;
+                                font-size: 14pt;
                                 color: #3a0ca3;
                                 padding-bottom: 8px;
                                 border-bottom: 2px solid #4361ee;
-                                margin-bottom: 15px;
+                                margin-bottom: 12px;
                             }
                             table {
                                 width: 100%;
                                 border-collapse: collapse;
-                                margin: 15px 0;
+                                margin: 12px 0;
+                                font-size: 10pt;
                             }
                             table, th, td {
                                 border: 1px solid #e9ecef;
                             }
                             th {
                                 background-color: #f8f9fa;
-                                padding: 12px;
+                                padding: 10px;
                                 text-align: left;
                                 font-weight: 600;
                             }
                             td {
-                                padding: 12px;
+                                padding: 10px;
                             }
                             @media print {
                                 body {
-                                    padding: 0;
+                                    width: 210mm;
+                                    height: 297mm;
+                                    padding: 15mm;
+                                    margin: 0;
                                 }
                                 .resume-preview {
                                     box-shadow: none;
@@ -1002,6 +1074,12 @@
                     </html>
                 `);
                 printWindow.document.close();
+            });
+            
+            // Print button functionality
+            document.getElementById('printBtn').addEventListener('click', function() {
+                // Use browser's print functionality
+                window.print();
             });
             
             // Reset button functionality
