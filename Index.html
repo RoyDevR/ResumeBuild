@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Resume Builder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #fca311;
+            --danger: #e63946;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 10px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: var(--shadow);
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* Main Content Area */
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            list-style: none;
+            background: white;
+            padding: 0;
+            margin: 0;
+            overflow-x: auto;
+            box-shadow: var(--shadow);
+            z-index: 5;
+        }
+
+        .nav-tabs li {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .nav-tabs li.active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-tabs li i {
+            font-size: 18px;
+        }
+
+        /* Form and Preview Container */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        @media (min-width: 992px) {
+            .main-content {
+                flex-direction: row;
+            }
+        }
+
+        /* Form Container */
+        .form-container {
+            background: white;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            z-index: 2;
+            flex: 1;
+        }
+
+        @media (min-width: 992px) {
+            .form-container {
+                width: 400px;
+                flex: 0 0 auto;
+            }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .input-with-icon input {
+            padding-left: 40px;
+        }
+
+        /* Preview Container */
+        .preview-container {
+            flex: 1;
+            padding: 20px;
+            background: var(--light);
+            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .resume-preview {
+            background: white;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 800px;
+            min-height: 1123px;
+            border-radius: var(--border-radius);
+        }
+
+        /* Resume Styles */
+        .resume-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .resume-header h1 {
+            font-size: 28px;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .resume-header p {
+            color: var(--gray);
+            margin: 3px 0;
+            font-size: 0.9rem;
+        }
+
+        .resume-section {
+            margin-bottom: 20px;
+        }
+
+        .resume-section h2 {
+            font-size: 18px;
+            color: var(--secondary);
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 0.9rem;
+        }
+
+        table, th, td {
+            border: 1px solid var(--light-gray);
+        }
+
+        th {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: var(--success);
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 1000;
+            max-width: 90%;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 6px;
+            background: var(--light-gray);
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 991px) {
+            .form-container {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 85%;
+                height: 100%;
+                z-index: 100;
+                transition: var(--transition);
+                overflow-y: auto;
+            }
+            
+            .form-container.active {
+                left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 99;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+            
+            .nav-tabs {
+                flex-wrap: nowrap;
+            }
+            
+            .resume-preview {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header {
+                padding: 0.8rem;
+            }
+            
+            .logo {
+                font-size: 1.2rem;
+            }
+            
+            .logo i {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .resume-preview {
+                padding: 15px;
+            }
+            
+            .resume-header h1 {
+                font-size: 24px;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+
+        /* Utility Classes */
+        .mt-20 {
+            margin-top: 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .close-btn {
+            display: none;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--danger);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 991px) {
+            .close-btn {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-file-alt"></i>
+                <span>ResumeBuild</span>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" id="saveBtn">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn btn-outline" id="resetBtn">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+                <button class="mobile-menu-btn" id="menuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <ul class="nav-tabs">
+                <li class="active" data-tab="personal">
+                    <i class="fas fa-user"></i>
+                    <span>Personal Info</span>
+                </li>
+                <li data-tab="education">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Education</span>
+                </li>
+                <li data-tab="skills">
+                    <i class="fas fa-tools"></i>
+                    <span>Skills</span>
+                </li>
+                <li data-tab="experience">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Experience</span>
+                </li>
+                <li data-tab="details">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Additional Details</span>
+                </li>
+            </ul>
+            
+            <div class="main-content">
+                <div class="form-container" id="formContainer">
+                    <button class="close-btn" id="closeBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="tab-content active" id="personal-tab">
+                        <div class="section-title">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Personal Information</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="fullName" placeholder="e.g. Rajan Kumar" value="Rajan Kumar">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" placeholder="e.g. example@email.com" value="Rajankumarroy27@gmail.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone1">Phone 1</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="phone1" placeholder="e.g. 8174866321" value="8174866321">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone2">Phone 2 (Optional)</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-phone"></i>
+                                <input type="tel" id="phone2" placeholder="e.g. 8808988480" value="8808988480">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <input type="text" id="address" placeholder="e.g. Your Address" value="Krishna Nagar KB Patil road gorai Vasai East 401209">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="objective">Career Objective</label>
+                            <textarea id="objective" placeholder="e.g. Your career objective">Obtain a Responsible position in a organization with the best capabilities, Skills and knowledge</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="education-tab">
+                        <div class="section-title">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Education History</span>
+                        </div>
+                        <div id="educationEntries">
+                            <div class="education-entry">
+                                <div class="form-group">
+                                    <label>Degree/Course</label>
+                                    <input type="text" class="degree" placeholder="e.g. 10th pass out in UP Board" value="10th pass out in UP Board">
+                                </div>
+                                <div class="form-group">
+                                    <label>Institute/College</label>
+                                    <input type="text" class="institute" placeholder="e.g. SNB Inter Collage" value="SNB Inter Collage">
+                                </div>
+                                <div class="form-group">
+                                    <label>University/Board</label>
+                                    <input type="text" class="university" placeholder="e.g. UP Board" value="UP Board">
+                                </div>
+                                <div class="form-group">
+                                    <label>Percentage/CGPA</label>
+                                    <input type="text" class="percentage" placeholder="e.g. 72%" value="72%">
+                                </div>
+                                <div class="form-group">
+                                    <label>Year of Passing</label>
+                                    <input type="number" class="year" placeholder="e.g. 2017" value="2017">
+                                </div>
+                                <button class="btn btn-outline remove-btn">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                                <hr class="mt-20">
+                            </div>
+                        </div>
+                        <button id="addEducation" class="btn btn-primary mt-20">
+                            <i class="fas fa-plus"></i> Add Education
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content" id="skills-tab">
+                        <div class="section-title">
+                            <i class="fas fa-tools"></i>
+                            <span>Skills & Knowledge</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="msOffice">MS Office</label>
+                            <input type="text" id="msOffice" placeholder="e.g. Word, Excel, PowerPoint">
+                        </div>
+                        <div class="form-group">
+                            <label for="hardwareSoftware">Hardware/Software</label>
+                            <input type="text" id="hardwareSoftware" placeholder="e.g. Computer assembly, troubleshooting">
+                        </div>
+                        <div class="form-group">
+                            <label for="programming">Programming Languages</label>
+                            <input type="text" id="programming" placeholder="e.g. Java, Python, JavaScript">
+                        </div>
+                        
+                        <div class="section-title">
+                            <i class="fas fa-star"></i>
+                            <span>Additional Skills</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="otherSkills">Other Skills (comma separated)</label>
+                            <input type="text" id="otherSkills" placeholder="e.g. Communication, Teamwork, Problem-solving">
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="experience-tab">
+                        <div class="section-title">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Work Experience</span>
+                        </div>
+                        <div id="experienceEntries">
+                            <div class="experience-entry">
+                                <div class="form-group">
+                                    <label>Company</label>
+                                    <input type="text" class="company" placeholder="e.g. SBI Credit Card" value="SBI Credit Card">
+                                </div>
+                                <div class="form-group">
+                                    <label>Position</label>
+                                    <input type="text" class="position" placeholder="e.g. Customer Service Representative" value="Customer Service Representative">
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input type="text" class="duration" placeholder="e.g. Jan 2022 - Present" value="Jan 2022 - Present">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea class="description" rows="3" placeholder="e.g. Responsibilities and achievements">Current working at SBI Credit Card</textarea>
+                                </div>
+                                <button class="btn btn-outline remove-btn">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                                <hr class="mt-20">
+                            </div>
+                        </div>
+                        <button id="addExperience" class="btn btn-primary mt-20">
+                            <i class="fas fa-plus"></i> Add Experience
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content" id="details-tab">
+                        <div class="section-title">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Additional Details</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" id="dob" value="2002-09-12">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender">
+                                <option value="">Select Gender</option>
+                                <option value="Male" selected>Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nationality">Nationality</label>
+                            <input type="text" id="nationality" placeholder="e.g. Indian" value="Indian">
+                        </div>
+                        <div class="form-group">
+                            <label for="maritalStatus">Marital Status</label>
+                            <select id="maritalStatus">
+                                <option value="">Select Status</option>
+                                <option value="Single" selected>Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="languages">Languages Known (comma separated)</label>
+                            <input type="text" id="languages" placeholder="e.g. Hindi, English" value="Hindi, English">
+                        </div>
+                    </div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress" id="progressBar"></div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p>Your resume is <span id="progressPercent">0%</span> complete</p>
+                    </div>
+                </div>
+                
+                <div class="preview-container">
+                    <div class="resume-preview" id="resumePreview">
+                        <!-- Resume preview will be generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Resume updated successfully!</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu functionality
+            const menuBtn = document.getElementById('menuBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const formContainer = document.getElementById('formContainer');
+            const overlay = document.getElementById('overlay');
+            
+            menuBtn.addEventListener('click', function() {
+                formContainer.classList.add('active');
+                overlay.classList.add('active');
+            });
+            
+            closeBtn.addEventListener('click', function() {
+                formContainer.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            overlay.addEventListener('click', function() {
+                formContainer.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+            
+            // Tab navigation
+            const tabs = document.querySelectorAll('.nav-tabs li');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and content
+                    document.querySelectorAll('.nav-tabs li').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                    
+                    // On mobile, close the form after selecting a tab
+                    if (window.innerWidth < 992) {
+                        formContainer.classList.remove('active');
+                        overlay.classList.remove('active');
+                    }
+                });
+            });
+            
+            // Add education entry
+            document.getElementById('addEducation').addEventListener('click', function() {
+                const educationEntry = document.createElement('div');
+                educationEntry.className = 'education-entry';
+                educationEntry.innerHTML = `
+                    <div class="form-group">
+                        <label>Degree/Course</label>
+                        <input type="text" class="degree" placeholder="e.g. 10th pass out in UP Board">
+                    </div>
+                    <div class="form-group">
+                        <label>Institute/College</label>
+                        <input type="text" class="institute" placeholder="e.g. SNB Inter Collage">
+                    </div>
+                    <div class="form-group">
+                        <label>University/Board</label>
+                        <input type="text" class="university" placeholder="e.g. UP Board">
+                    </div>
+                    <div class="form-group">
+                        <label>Percentage/CGPA</label>
+                        <input type="text" class="percentage" placeholder="e.g. 72%">
+                    </div>
+                    <div class="form-group">
+                        <label>Year of Passing</label>
+                        <input type="number" class="year" placeholder="e.g. 2017">
+                    </div>
+                    <button class="btn btn-outline remove-btn">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                    <hr class="mt-20">
+                `;
+                document.getElementById('educationEntries').appendChild(educationEntry);
+                
+                // Add event listener to remove button
+                educationEntry.querySelector('.remove-btn').addEventListener('click', function() {
+                    educationEntry.remove();
+                    updatePreview();
+                });
+                
+                // Add input event listeners to new fields
+                addInputListeners(educationEntry);
+                updatePreview();
+            });
+            
+            // Add experience entry
+            document.getElementById('addExperience').addEventListener('click', function() {
+                const experienceEntry = document.createElement('div');
+                experienceEntry.className = 'experience-entry';
+                experienceEntry.innerHTML = `
+                    <div class="form-group">
+                        <label>Company</label>
+                        <input type="text" class="company" placeholder="e.g. SBI Credit Card">
+                    </div>
+                    <div class="form-group">
+                        <label>Position</label>
+                        <input type="text" class="position" placeholder="e.g. Customer Service Representative">
+                    </div>
+                    <div class="form-group">
+                        <label>Duration</label>
+                        <input type="text" class="duration" placeholder="e.g. Jan 2022 - Present">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="description" rows="3" placeholder="e.g. Responsibilities and achievements"></textarea>
+                    </div>
+                    <button class="btn btn-outline remove-btn">
+                        <i class="fas fa-trash"></i> Remove
+                    </button>
+                    <hr class="mt-20">
+                `;
+                document.getElementById('experienceEntries').appendChild(experienceEntry);
+                
+                // Add event listener to remove button
+                experienceEntry.querySelector('.remove-btn').addEventListener('click', function() {
+                    experienceEntry.remove();
+                    updatePreview();
+                });
+                
+                // Add input event listeners to new fields
+                addInputListeners(experienceEntry);
+                updatePreview();
+            });
+            
+            // Add event listeners to existing remove buttons
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.closest('.education-entry, .experience-entry').remove();
+                    updatePreview();
+                });
+            });
+            
+            // Add input listeners to all form elements
+            function addInputListeners(element) {
+                element.querySelectorAll('input, textarea, select').forEach(input => {
+                    input.addEventListener('input', updatePreview);
+                });
+            }
+            
+            // Add input listeners to initial form elements
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+            
+            // Save button functionality
+            document.getElementById('saveBtn').addEventListener('click', function() {
+                showNotification('Resume saved successfully!');
+                
+                // Create a printable version of the resume
+                const resumeContent = document.getElementById('resumePreview').innerHTML;
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>My Professional Resume</title>
+                        <style>
+                            body {
+                                font-family: 'Poppins', sans-serif;
+                                line-height: 1.6;
+                                color: #212529;
+                                max-width: 800px;
+                                margin: 0 auto;
+                                padding: 40px;
+                            }
+                            .resume-header {
+                                text-align: center;
+                                margin-bottom: 30px;
+                                padding-bottom: 20px;
+                                border-bottom: 2px solid #e9ecef;
+                            }
+                            .resume-header h1 {
+                                font-size: 32px;
+                                color: #3a0ca3;
+                                margin-bottom: 5px;
+                            }
+                            .resume-header p {
+                                color: #6c757d;
+                                margin: 5px 0;
+                            }
+                            .resume-section {
+                                margin-bottom: 25px;
+                            }
+                            .resume-section h2 {
+                                font-size: 20px;
+                                color: #3a0ca3;
+                                padding-bottom: 8px;
+                                border-bottom: 2px solid #4361ee;
+                                margin-bottom: 15px;
+                            }
+                            table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin: 15px 0;
+                            }
+                            table, th, td {
+                                border: 1px solid #e9ecef;
+                            }
+                            th {
+                                background-color: #f8f9fa;
+                                padding: 12px;
+                                text-align: left;
+                                font-weight: 600;
+                            }
+                            td {
+                                padding: 12px;
+                            }
+                            @media print {
+                                body {
+                                    padding: 0;
+                                }
+                                .resume-preview {
+                                    box-shadow: none;
+                                    padding: 0;
+                                }
+                                @page {
+                                    size: A4;
+                                    margin: 0;
+                                }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="resume-preview">${resumeContent}</div>
+                        <script>
+                            window.onload = function() {
+                                window.print();
+                            };
+                        <\/script>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+            });
+            
+            // Reset button functionality
+            document.getElementById('resetBtn').addEventListener('click', function() {
+                if(confirm('Are you sure you want to reset all fields? This cannot be undone.')) {
+                    document.querySelectorAll('input, textarea').forEach(input => {
+                        input.value = '';
+                    });
+                    document.querySelectorAll('select').forEach(select => {
+                        select.selectedIndex = 0;
+                    });
+                    document.querySelectorAll('.education-entry, .experience-entry').forEach(entry => {
+                        if(entry !== document.querySelector('.education-entry') && 
+                           entry !== document.querySelector('.experience-entry')) {
+                            entry.remove();
+                        }
+                    });
+                    updatePreview();
+                    showNotification('All fields have been reset.');
+                }
+            });
+            
+            // Show notification function
+            function showNotification(message) {
+                const notification = document.getElementById('notification');
+                document.getElementById('notificationText').textContent = message;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Update progress bar
+            function updateProgressBar() {
+                const inputs = document.querySelectorAll('input, textarea, select');
+                let filledCount = 0;
+                
+                inputs.forEach(input => {
+                    if (input.value.trim() !== '') {
+                        filledCount++;
+                    }
+                });
+                
+                const progress = (filledCount / inputs.length) * 100;
+                document.getElementById('progressBar').style.width = `${progress}%`;
+                document.getElementById('progressPercent').textContent = `${Math.round(progress)}%`;
+            }
+            
+            // Initial preview update
+            updatePreview();
+            
+            function updatePreview() {
+                updateProgressBar();
+                const resumePreview = document.getElementById('resumePreview');
+                
+                // Get personal information
+                const fullName = document.getElementById('fullName').value || 'Your Full Name';
+                const email = document.getElementById('email').value || 'email@example.com';
+                const phone1 = document.getElementById('phone1').value || '';
+                const phone2 = document.getElementById('phone2').value || '';
+                const address = document.getElementById('address').value || 'Your Address';
+                const objective = document.getElementById('objective').value || 'Your career objective will appear here.';
+                
+                // Format phone numbers
+                let phones = phone1;
+                if (phone2) phones += ` | ${phone2}`;
+                
+                // Get education data
+                let educationHTML = '';
+                document.querySelectorAll('.education-entry').forEach(entry => {
+                    const degree = entry.querySelector('.degree').value || '';
+                    const institute = entry.querySelector('.institute').value || '';
+                    const university = entry.querySelector('.university').value || '';
+                    const percentage = entry.querySelector('.percentage').value || '';
+                    const year = entry.querySelector('.year').value || '';
+                    
+                    if (degree || institute || university || percentage || year) {
+                        educationHTML += `
+                            <tr>
+                                <td>${degree}</td>
+                                <td>${institute}</td>
+                                <td>${university}</td>
+                                <td>${percentage}</td>
+                                <td>${year}</td>
+                            </tr>
+                        `;
+                    }
+                });
+                
+                if (!educationHTML) {
+                    educationHTML = `
+                        <tr>
+                            <td>10th pass out in UP Board</td>
+                            <td>SNB Inter Collage</td>
+                            <td>UP Board</td>
+                            <td>72%</td>
+                            <td>2017</td>
+                        </tr>
+                        <tr>
+                            <td>12th pass out in UP Board</td>
+                            <td>Gov. Jubile Inter Collage</td>
+                            <td>UP Board</td>
+                            <td>58%</td>
+                            <td>2020</td>
+                        </tr>
+                        <tr>
+                            <td>BCA</td>
+                            <td>JS University Shikohabad</td>
+                            <td>University</td>
+                            <td></td>
+                            <td>2023</td>
+                        </tr>
+                    `;
+                }
+                
+                // Get skills data
+                const msOffice = document.getElementById('msOffice').value || '';
+                const hardwareSoftware = document.getElementById('hardwareSoftware').value || '';
+                const programming = document.getElementById('programming').value || '';
+                const otherSkills = document.getElementById('otherSkills').value || '';
+                
+                // Get experience data
+                let experienceHTML = '';
+                document.querySelectorAll('.experience-entry').forEach(entry => {
+                    const company = entry.querySelector('.company').value || '';
+                    const position = entry.querySelector('.position').value || '';
+                    const duration = entry.querySelector('.duration').value || '';
+                    const description = entry.querySelector('.description').value || '';
+                    
+                    if (company || position || duration || description) {
+                        experienceHTML += `
+                            <div class="experience-item">
+                                <h3>${company}</h3>
+                                <p><strong>${position}</strong> | ${duration}</p>
+                                <p>${description}</p>
+                            </div>
+                        `;
+                    }
+                });
+                
+                if (!experienceHTML) {
+                    experienceHTML = `
+                        <p>Current working SBI Credit Card</p>
+                        <p>I worked my previous company Paytm Fse</p>
+                    `;
+                }
+                
+                // Get personal details
+                const dob = document.getElementById('dob').value || '';
+                const gender = document.getElementById('gender').value || '';
+                const nationality = document.getElementById('nationality').value || 'Indian';
+                const maritalStatus = document.getElementById('maritalStatus').value || '';
+                const languages = document.getElementById('languages').value || 'Hindi, English';
+                
+                // Format date of birth
+                let formattedDOB = '';
+                if (dob) {
+                    const dateObj = new Date(dob);
+                    formattedDOB = dateObj.toLocaleDateString('en-GB'); // DD/MM/YYYY format
+                }
+                
+                // Generate the resume preview
+                resumePreview.innerHTML = `
+                    <div class="resume-header">
+                        <h1>${fullName}</h1>
+                        <p>${email}</p>
+                        <p>${phones}</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h2>CAREER OBJECTIVE</h2>
+                        <p>${objective}</p>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h2>EDUCATION</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Degree/Course</th>
+                                    <th>Institute/College</th>
+                                    <th>University/Board</th>
+                                    <th>Percentage/CGPA</th>
+                                    <th>Year of Passing</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${educationHTML}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h2>TECH KNOWLEDGE</h2>
+                        <table>
+                            <tr>
+                                <th>MS Office</th>
+                                <th>Hardware/Software</th>
+                                <th>Programming Language</th>
+                            </tr>
+                            <tr>
+                                <td>${msOffice}</td>
+                                <td>${hardwareSoftware}</td>
+                                <td>${programming}</td>
+                            </tr>
+                        </table>
+                        ${otherSkills ? `<p><strong>Additional Skills:</strong> ${otherSkills}</p>` : ''}
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h2>WORK EXPERIENCE</h2>
+                        ${experienceHTML}
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h2>PERSONAL DETAILS</h2>
+                        <table>
+                            <tr>
+                                <td>Address</td>
+                                <td>${address}</td>
+                            </tr>
+                            <tr>
+                                <td>Date of Birth</td>
+                                <td>${formattedDOB}</td>
+                            </tr>
+                            <tr>
+                                <td>Gender</td>
+                                <td>${gender}</td>
+                            </tr>
+                            <tr>
+                                <td>Nationality</td>
+                                <td>${nationality}</td>
+                            </tr>
+                            <tr>
+                                <td>Marital Status</td>
+                                <td>${maritalStatus}</td>
+                            </tr>
+                            <tr>
+                                <td>Languages Known</td>
+                                <td>${languages}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="resume-section">
+                        <h2>DECLARATION</h2>
+                        <p>I hereby declare that the above mentioned information is correct to the best of my knowledge and bear the responsibility for the correctness of the above mentioned particulars.</p>
+                        <p><strong>${fullName}</strong></p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
